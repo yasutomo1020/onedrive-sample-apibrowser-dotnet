@@ -1,50 +1,53 @@
 ---
 page_type: sample
 products:
-- office-onedrive
-- ms-graph
+  - office-onedrive
+  - ms-graph
 languages:
-- csharp
+  - csharp
 extensions:
   contentType: samples
   technologies:
-  - Microsoft Graph
+    - Microsoft Graph
   services:
-  - OneDrive
+    - OneDrive
   createdDate: 7/6/2016 11:47:49 AM
 ---
+
 # OneDrive API Browser Sample
 
-The OneDriveAPIBrowser sample is a [Windows Forms](https://msdn.microsoft.com/en-us/library/dd30h2yb(v=vs.110).aspx) app sample that uses the [Microsoft Graph .NET Client Library](https://github.com/microsoftgraph/msgraph-sdk-dotnet) for C#/.NET. In this sample, users can browse files and folders that are stored on OneDrive, and view metadata.
+The OneDriveAPIBrowser sample is a [Windows Forms](<https://msdn.microsoft.com/en-us/library/dd30h2yb(v=vs.110).aspx>) app sample that uses the [Microsoft Graph .NET Client Library](https://github.com/microsoftgraph/msgraph-sdk-dotnet) for C#/.NET. In this sample, users can browse files and folders that are stored on OneDrive, and view metadata.
 
 ## Register and configure the application
 
-1. Sign into the [App Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.  
-2. Select **Add an app**.  
-3. Enter a name for the app, and select **Create application**. The registration page displays, listing the properties of your app.  
-4. Under **Platforms**, select **Add platform**.  
-5. Select **Mobile application**.  
-6. Copy the Client Id (App Id) value to the clipboard. You'll need to use it in the sample app. The app id is a unique identifier for your app.   
-7. Select **Save**.  
+1. Sign into the [App Registration Portal](https://apps.dev.microsoft.com/) using either your personal or work or school account.
+2. Select **Add an app**.
+3. Enter a name for the app, and select **Create application**. The registration page displays, listing the properties of your app.
+4. Under **Platforms**, select **Add platform**.
+5. Select **Mobile application**.
+6. Copy the Client Id (App Id) value to the clipboard. You'll need to use it in the sample app. The app id is a unique identifier for your app.
+7. Select **Save**.
 
 ## Set up
 
-1. Install [Visual Studio](https://www.visualstudio.com/downloads/download-visual-studio-vs) and all available updates, if you don't already have it. 
+1. Install [Visual Studio](https://www.visualstudio.com/downloads/download-visual-studio-vs) and all available updates, if you don't already have it.
 2. Download the OneDriveAPIBrowser sample from [GitHub](https://github.com/OneDrive/onedrive-sample-apibrowser-dotnet) or create your own fork of the repository.
 3. From Visual Studio, open the **OneDriveApiBrowser.sln** solution.
 4. Go to the OneDriveApiBrowser project in the solution and view the code for FormBrowser.cs.
 5. Configure the sample to use the Client Id (App Id) that you registered by making it the value of the `MsaClientId` variable:
+
 ```csharp
-        private const string MsaClientId = "Insert your client ID here";
+        private const string MsaClientId = "0a016307-81e0-4dd5-a0e6-e61c34c70514";
 ```
 
 ## Run the sample
 
-In Visual Studio, select the sample OneDriveAPIBrowser from the Startup project list, and then press **F5** or click **Start** to run the sample. The sample looks like this: 
+In Visual Studio, select the sample OneDriveAPIBrowser from the Startup project list, and then press **F5** or click **Start** to run the sample. The sample looks like this:
 
 ![OneDriveAPIBrowser sample](OneDriveApiBrowser/images/OneDriveAPIBrowser.PNG)
 
 ### Sign-in
+
 When the OneDrive API Browser app opens, choose **File** | **Sign in...** to sign in to a personal OneDrive account or to a business OneDrive account. Once you have signed in to your Microsoft account, a dialog will appear, asking for permissions to access OneDrive files.
 
 ![Let this app access your info](OneDriveApiBrowser/images/Permissions.PNG)
@@ -63,7 +66,8 @@ To download a file, select a file, and then choose **Download** from the menu.
 
 ### Retrieving an authenticated client
 
-This sample gets a Microsoft Graph **GraphServiceClient** instance and signs in the user using  the **GetAuthenticatedClient** method in the **AuthenticationHelper.cs** file.
+This sample gets a Microsoft Graph **GraphServiceClient** instance and signs in the user using the **GetAuthenticatedClient** method in the **AuthenticationHelper.cs** file.
+
 ```csharp
 
 public static string[] Scopes = { "Files.ReadWrite.All" };
@@ -96,7 +100,7 @@ public static string[] Scopes = { "Files.ReadWrite.All" };
             }
 
             return graphClient;
-        } 
+        }
 ...
 ```
 
@@ -125,7 +129,7 @@ folder = await this.graphClient.Drive.Root.Request().Expand(expandValue).GetAsyn
 
 ### Simple item upload
 
-This sample makes use of Microsoft Graph's ability to upload items by path or by id. 
+This sample makes use of Microsoft Graph's ability to upload items by path or by id.
 Here, you upload an item by path:
 
 ```csharp
@@ -134,26 +138,27 @@ Here, you upload an item by path:
 string folderPath = targetFolder.ParentReference == null
 	? ""
 	: targetFolder.ParentReference.Path.Remove(0, 12) + "/" + Uri.EscapeUriString(targetFolder.Name);
-	var uploadPath = folderPath + "/" + Uri.EscapeUriString(System.IO.Path.GetFileName(filename)); 
+	var uploadPath = folderPath + "/" + Uri.EscapeUriString(System.IO.Path.GetFileName(filename));
 
 // Use the Microsoft Graph SDK to upload the item by path.
 var uploadedItem =
 	await
-	this.graphClient.Drive.Root.ItemWithPath(uploadPath).Content.Request().PutAsync<DriveItem>(stream); 
+	this.graphClient.Drive.Root.ItemWithPath(uploadPath).Content.Request().PutAsync<DriveItem>(stream);
 
 ```
 
 This example shows how to upload an item by id:
+
 ```csharp
 var uploadedItem =
 	await
 	this.graphClient.Drive.Items[targetFolder.Id].ItemWithPath(filename).Content.Request()
-                                    .PutAsync<DriveItem>(stream); 
+                                    .PutAsync<DriveItem>(stream);
 ```
 
 ## More resources
 
-You can continue to explore this sample and the rest of its features by using GitHub or Visual Studio. To view a Windows Universal app sample that uses the Microsoft Graph SDK for CSharp/.NET, see [OneDrivePhotoBrowser](https://github.com/OneDrive/graph-sample-photobrowser-uwp). Make sure to also check out the Microsoft Graph API's official documentation at [https://developer.microsoft.com/en-us/graph/](https://developer.microsoft.com/en-us/graph/). 
+You can continue to explore this sample and the rest of its features by using GitHub or Visual Studio. To view a Windows Universal app sample that uses the Microsoft Graph SDK for CSharp/.NET, see [OneDrivePhotoBrowser](https://github.com/OneDrive/graph-sample-photobrowser-uwp). Make sure to also check out the Microsoft Graph API's official documentation at [https://developer.microsoft.com/en-us/graph/](https://developer.microsoft.com/en-us/graph/).
 
 ## License
 
